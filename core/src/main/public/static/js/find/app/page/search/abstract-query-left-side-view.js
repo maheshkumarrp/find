@@ -169,10 +169,10 @@ define([
             this.$el.empty()
                 .append(this.filterInput.$el)
                 .append(this.$emptyMessage)
-                .append(this.indexesViewWrapper.$el)
-                .append(this.dateViewWrapper.$el)
-                .append(this.numericParametricView.$el)
-                .append(this.dateParametricView.$el)
+                //.append(this.indexesViewWrapper.$el)
+                //.append(this.dateViewWrapper.$el)
+                //.append(this.numericParametricView.$el)
+                //.append(this.dateParametricView.$el)
                 .append(this.parametricView.$el);
 
             this.filterInput.render();

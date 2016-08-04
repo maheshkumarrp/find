@@ -38,7 +38,7 @@ define([
                 collection: this.collection,
                 footerHtml: this.seeAllButtonTemplate({i18n:i18n}),
                 ItemView: ValueView,
-                maxSize: MAX_SIZE,
+                //maxSize: MAX_SIZE,
                 tagName: 'tbody',
                 collectionChangeEvents: {
                     count: 'updateCount',

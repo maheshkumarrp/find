@@ -9,10 +9,11 @@ define([
     'js-whatever/js/list-view',
     'find/app/page/search/filters/parametric/abstract-parametric-view',
     'find/app/page/search/filters/parametric/parametric-field-view',
+    'find/app/util/filtering-collection',
     'parametric-refinement/display-collection',
     'i18n!find/nls/bundle',
     'text!find/templates/app/page/search/filters/parametric/parametric-view.html'
-], function(Backbone, $, ListView, AbstractView, FieldView, DisplayCollection, i18n, template) {
+], function(Backbone, $, ListView, AbstractView, FieldView, FilteringCollection, DisplayCollection, i18n, template) {
     'use strict';
 
     return AbstractView.extend({
@@ -43,10 +44,19 @@ define([
 
             this.monitorCollection(options.restrictedParametricCollection);
 
+            var filteredColl = new FilteringCollection([], {
+                collection: this.displayCollection,
+                filterModel: this.filterModel,
+                predicate: function(filterModel, model){
+                    return model.get('id') === '/DOCUMENT/EDK_DB_COMPANY'
+                },
+                resetOnFilter: true
+            })
+
             var collapsed = {};
 
             this.fieldNamesListView = new ListView({
-                collection: this.displayCollection,
+                collection: filteredColl,
                 ItemView: FieldView,
                 proxyEvents: ['toggle'],
                 itemOptions: {
@@ -60,7 +70,7 @@ define([
                             return false;
                         }
                         else {
-                            return _.isUndefined(collapsed[model.id]) ? true : collapsed[model.id];
+                            return false;
                         }
                     }, this)
                 }
