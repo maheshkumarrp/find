@@ -80,7 +80,7 @@ define([
 
             this.collapsible = new Collapsible({
                 collapsed: collapsed,
-                title: this.model.get('displayName') + ' (' + this.model.fieldValues.length +')',
+                title: this.model.get('displayName'),
                 subtitle: this.subtitleTemplate({
                     i18n: i18n,
                     length: this.getFieldSelectedValuesLength()
@@ -95,7 +95,7 @@ define([
             });
 
             this.listenTo(this.selectedParametricValues, 'update', function() {
-                this.collapsible.$('.selection-length').text(this.getFieldSelectedValuesLength());
+                //this.collapsible.$('.selection-length').text(this.getFieldSelectedValuesLength());
                 this.toggleWarning();
             });
 
