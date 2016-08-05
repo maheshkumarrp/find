@@ -80,11 +80,11 @@ define([
 
             this.collapsible = new Collapsible({
                 collapsed: collapsed,
-                title: this.model.get('displayName'),
-                subtitle: this.subtitleTemplate({
-                    i18n: i18n,
-                    length: this.getFieldSelectedValuesLength()
-                }),
+                //title: this.model.get('displayName'),
+                //subtitle: this.subtitleTemplate({
+                //    i18n: i18n,
+                //    length: this.getFieldSelectedValuesLength()
+                //}),
                 view: new ValuesView({
                     collection: this.model.fieldValues,
                     model: this.model,
