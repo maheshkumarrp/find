@@ -51,21 +51,15 @@ define([
             'click .preview-mode [data-cid]': function(e) {
                 var $target = $(e.currentTarget);
 
-                if ($target.hasClass('selected-document')) {
-                    // disable preview mode
-                    this.previewModeModel.set({document: null});
-                } else {
-                    //enable/choose another preview view
-                    var cid = $target.data('cid');
-                    var isPromotion = $target.closest('.main-results-list').hasClass('promotions');
-                    var collection = isPromotion ? this.promotionsCollection : this.documentsCollection;
-                    var model = collection.get(cid);
-                    this.previewModeModel.set({document: model});
+                //enable/choose another preview view
+                var cid = $target.data('cid');
+                var isPromotion = $target.closest('.main-results-list').hasClass('promotions');
+                var collection = isPromotion ? this.promotionsCollection : this.documentsCollection;
+                var model = collection.get(cid);
 
-                    if (!isPromotion) {
-                        events().preview(collection.indexOf(model) + 1);
-                    }
-                }
+                vent.navigateToDetailRoute(model);
+
+                events().fullPreview();
             },
 
             // ToDo : Merge with changes made in FIND-229
@@ -132,8 +126,16 @@ define([
             });
 
             if (this.previewModeModel) {
-                this.listenTo(this.previewModeModel, 'change:document', this.updateSelectedDocument);
+                this.previewModeModel.set({document: null});
+                //this.listenTo(this.previewModeModel, 'change:document', this.updateSelectedDocument);
+                this.listenTo(this.documentsCollection, 'add remove reset', this.viewAutoDocument)
+                this.viewAutoDocument();
             }
+        },
+
+        viewAutoDocument: function(){
+            var found = this.documentsCollection.where({index: 'AnnualReports'})
+            this.previewModeModel.set({document: found.length === 1 ? found[0] : null});
         },
 
         refreshResults: function() {
@@ -221,7 +223,7 @@ define([
             
             if (this.previewModeModel) {
                 this.$('.main-results-content').addClass('preview-mode');
-                this.updateSelectedDocument();
+                //this.updateSelectedDocument();
             } else {
                 this.$('.main-results-content').addClass('document-detail-mode');
             }
